@@ -22,7 +22,7 @@ const guilds = process.env.GUILD_IDS?.split(',') || [];
 
 (async () => {
   try {
-    // 1. Delete all global commands to prevent duplicates
+    // Delete all global commands
     console.log('🧹 Cleaning up global commands...');
     const globalCommands = await rest.get(Routes.applicationCommands(process.env.CLIENT_ID));
     for (const cmd of globalCommands) {
@@ -31,20 +31,37 @@ const guilds = process.env.GUILD_IDS?.split(',') || [];
     }
     console.log('✅ Global commands cleaned.');
 
-    // 2. Register commands per guild for instant availability
+    // Delete all commands from each guild
     for (const guildId of guilds) {
       try {
-        console.log(`🔁 Registering commands to Guild: ${guildId.trim()}...`);
+        console.log(`🧹 Cleaning commands from guild: ${guildId.trim()}...`);
+        const guildCommands = await rest.get(Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId.trim()));
+        for (const cmd of guildCommands) {
+          console.log(`🗑️ Deleting guild command: ${cmd.name} from guild ${guildId.trim()}`);
+          await rest.delete(Routes.applicationGuildCommand(process.env.CLIENT_ID, guildId.trim(), cmd.id));
+        }
+        console.log(`✅ Commands cleaned from guild: ${guildId.trim()}`);
+      } catch (guildDeleteError) {
+        console.error(`❌ Failed to clean guild commands for ${guildId.trim()}:`, guildDeleteError);
+      }
+    }
+
+    // Register commands to each guild
+    for (const guildId of guilds) {
+      try {
+        console.log(`🔁 Registering commands to guild: ${guildId.trim()}...`);
         await rest.put(
           Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId.trim()),
           { body: commands }
         );
-        console.log(`✅ Successfully registered commands for guild ${guildId.trim()}`);
-      } catch (error) {
-        console.error(`❌ Failed to register commands for guild ${guildId.trim()}:`, error);
+        console.log(`✅ Successfully registered commands for guild: ${guildId.trim()}`);
+      } catch (guildRegisterError) {
+        console.error(`❌ Failed to register commands for guild ${guildId.trim()}:`, guildRegisterError);
       }
     }
+
   } catch (error) {
-    console.error('❌ Error in deployment:', error);
+    console.error('❌ Deployment error:', error);
   }
 })();
+
