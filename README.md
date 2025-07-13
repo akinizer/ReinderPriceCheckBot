@@ -21,3 +21,7 @@ This application is built as a Discord bot to inform and assist the Pokémon Rev
 
    ```bash
    npm install
+
+3. Run the application with following command:
+   ```bash
+   npm start or node index.js

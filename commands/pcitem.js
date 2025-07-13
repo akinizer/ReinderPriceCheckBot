@@ -35,23 +35,23 @@ module.exports = {
 
     // 🔧 Example price map
     const priceMap = {
-      leftovers: '60k-80k',
-      lifeorb: '50k-70k',
-      assaultvest: '45k-65k',
-      rockyhelmet: '40k-60k',
-      focussash: '35k-55k',
-      eviolite: '50k-75k',
-      blackglasses: '15k-30k',
-      blacksludge: '25k-40k',
-      heatrock: '10k-20k',
-      damprock: '10k-20k',
-      smoothrock: '10k-20k',
+      leftovers: '5k',
+      lifeorb: '40k',
+      assaultvest: '200-250k',
+      rockyhelmet: '150k',
+      focussash: '1k-2.5k',
+      eviolite: '50k-60k',
+      blackglasses: '8k-10k',
+      blacksludge: '20k',
+      heatrock: '20k-30kk',
+      damprock: '20k-30k',
+      smoothrock: '10k-30k',
       flameorb: '30k-50k',
-      toxicorb: '35k-55k',
+      toxicorb: '25k-30k',
       lightclay: '20k-35k',
       quickclaw: '15k-25k',
-      kingsrock: '20k-40k',
-      widelens: '10k-20k'
+      kingsrock: '15k',
+      widelens: '20k'
     };
 
     const price = priceMap[item] || 'Unknown';
